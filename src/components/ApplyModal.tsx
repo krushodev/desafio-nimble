@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Modal, ModalContent, ModalHeader, ModalBody } from '@heroui/react';
 import { RiCheckLine, RiLoader4Line, RiUserLine } from 'react-icons/ri';
+import toast from 'react-hot-toast';
 import { candidateService } from '@/api/services';
-import { getErrorMessage } from '@/api/utils';
 import type { Job, Candidate } from '@/types';
 
 interface ApplyModalProps {
@@ -40,8 +40,9 @@ export const ApplyModal = ({ isOpen, job, candidate, onClose }: ApplyModalProps)
         repoUrl
       });
       setStep('success');
-    } catch (err) {
-      setError(getErrorMessage(err, 'Failed to submit application.'));
+    } catch {
+      setError('Error. Something went wrong.');
+      toast.error('Error. Something went wrong.');
     } finally {
       setLoading(false);
     }
